@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
+  mode: "development",
   output: {
     path: path.join(__dirname, "public"),
   },
@@ -15,6 +16,16 @@ module.exports = {
             transpileOnly: true,
           },
         },
+      },
+      {
+        test: /\.css/,
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: { url: false },
+          },
+        ],
       },
     ],
   },

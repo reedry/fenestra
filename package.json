@@ -12,7 +12,7 @@
     "build:client": "webpack --mode production",
     "watch:tsc": "tsc --project server/tsconfig.json --watch",
     "watch": "webpack --watch",
-    "start": "./bin/server.js"
+    "start": "webpack-dev-server"
   },
   "bin": {
     "fene": "bin/server.js"
@@ -22,18 +22,23 @@
     "@types/node": "^13.13.5",
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.7",
+    "css-loader": "^3.5.3",
     "html-webpack-plugin": "^4.3.0",
     "prettier": "^2.0.5",
+    "style-loader": "^1.2.1",
     "ts-loader": "^7.0.2",
     "typescript": "^3.8.3",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
     "@types/minimist": "^1.2.0",
+    "codemirror": "^5.53.2",
     "express": "^4.17.1",
     "minimist": "^1.2.5",
     "react": "^16.13.1",
+    "react-codemirror2": "^7.1.0",
     "react-dom": "^16.13.1"
   }
 }
