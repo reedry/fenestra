@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CSS from "csstype";
 import { Controlled as CodeMirror } from "react-codemirror2";
 import "codemirror/mode/gfm/gfm";
@@ -11,8 +11,10 @@ const processor = remark().use(remarkReact);
 
 const App: React.FC = () => {
   const [val, setVal] = useState("");
+  const [saveVal, setSaveVal] = useState("");
   const [isEnabledPreview, setIsEnabledPreview] = useState(false);
   const [timeoutId, setTimeoutId] = useState<number>();
+  const didMountRef = useRef(false);
   const options = {
     mode: "gfm",
     lineWrapping: true,
@@ -40,6 +42,19 @@ const App: React.FC = () => {
       }, 2000)
     );
   }, [val]);
+  useEffect(() => {
+    if (!didMountRef.current) {
+      didMountRef.current = true;
+      return;
+    }
+    window.fetch("/api/save", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify({ content: saveVal }),
+    });
+  }, [saveVal]);
   const compileMd = (mkd: string) => {
     const file: any = processor.processSync(mkd);
     return file.result || file.contents;
@@ -70,6 +85,12 @@ const App: React.FC = () => {
           </>
         )}
       </div>
+      <button
+        onClick={() => {
+          setSaveVal(val);
+        }}
+        value="Save"
+      />
     </>
   );
 };
