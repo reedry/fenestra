@@ -43,7 +43,8 @@ app.get("/api/test", (_, res) => {
       content,
       preview,
     });
-  } catch {
+  } catch (err) {
+    console.log(err);
     res.json({ exist: false, preview });
   }
 });
@@ -53,7 +54,8 @@ app.post("/api/save", (req, res) => {
   try {
     fs.writeFileSync(filePath, content, "utf8");
     res.json({ ok: true });
-  } catch {
+  } catch (err) {
+    console.log(err);
     res.json({ ok: false });
   }
 });
