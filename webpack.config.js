@@ -31,4 +31,11 @@ module.exports = {
       template: path.join(__dirname, "src/index.html"),
     }),
   ],
+  devServer: {
+    before: (app, server) => {
+      app.get("/api/test", (req, res) => {
+        res.json({ exist: true, content: "test api" });
+      });
+    },
+  },
 };
