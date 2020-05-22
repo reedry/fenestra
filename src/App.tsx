@@ -87,8 +87,9 @@ const App: React.FC = () => {
         onClick={() => {
           setSaveVal(val);
         }}
-        value="Save"
-      />
+      >
+        Save
+      </button>
     </>
   );
 };

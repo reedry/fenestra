@@ -49,7 +49,13 @@ app.get("/api/test", (_, res) => {
 });
 app.post("/api/save", (req, res) => {
   console.log(req.body);
-  res.json({ ok: true });
+  const content = req.body.content;
+  try {
+    fs.writeFileSync(fileName, content, "utf8");
+    res.json({ ok: true });
+  } catch {
+    res.json({ ok: false });
+  }
 });
 
 app.listen(port, () =>
