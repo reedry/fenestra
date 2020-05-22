@@ -13,7 +13,7 @@ const App: React.FC = () => {
   const [val, setVal] = useState("");
   const [saveVal, setSaveVal] = useState("");
   const [isEnabledPreview, setIsEnabledPreview] = useState(false);
-  const [timeoutId, setTimeoutId] = useState<number>();
+  const timeoutRef = useRef<number>();
   const didMountRef = useRef(false);
   const options = {
     mode: "gfm",
@@ -35,12 +35,10 @@ const App: React.FC = () => {
     console.log(`preview: ${isEnabledPreview}`);
   }, []);
   useEffect(() => {
-    window.clearTimeout(timeoutId);
-    setTimeoutId(
-      window.setTimeout(() => {
-        console.log("invoked");
-      }, 2000)
-    );
+    window.clearTimeout(timeoutRef.current);
+    timeoutRef.current = window.setTimeout(() => {
+      console.log("invoked");
+    }, 2000);
   }, [val]);
   useEffect(() => {
     if (!didMountRef.current) {
