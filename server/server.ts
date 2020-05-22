@@ -8,7 +8,7 @@ import minimist from "minimist";
 const parseOption = {
   boolean: ["help"],
   alias: { p: "port", h: "help" },
-  default: { p: 3000 },
+  default: { p: 8000 },
 };
 
 const parsed = minimist(process.argv.slice(2), parseOption);
@@ -29,13 +29,18 @@ console.log(filePath);
 const fileName = path.basename(filePath);
 
 const app = express();
-app.use(express.static("public"));
+const pubpath = path.join(__dirname, "../public");
+console.log(pubpath);
+app.use(express.static(pubpath));
 app.get("/api/test", (_, res) => {
   try {
     const content = fs.readFileSync(filePath, "utf8");
-    res.send(JSON.stringify(content));
+    res.json({
+      exist: true,
+      content: content,
+    });
   } catch {
-    res.send("File Not Found");
+    res.json({ exist: false });
   }
 });
 

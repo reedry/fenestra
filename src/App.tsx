@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CSS from "csstype";
 import { Controlled as CodeMirror } from "react-codemirror2";
 import "codemirror/mode/gfm/gfm";
@@ -17,6 +17,15 @@ const App: React.FC = () => {
     lineNumbers: true,
     theme: "default",
   };
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await window.fetch("/api/test");
+      const data = await res.json();
+      console.log(data);
+      setVal(data.content);
+    };
+    fetch();
+  }, []);
   const compileMd = (mkd: string) => {
     const file: any = processor.processSync(mkd);
     return file.result || file.contents;
