@@ -12,6 +12,7 @@ const processor = remark().use(remarkReact);
 const App: React.FC = () => {
   const [val, setVal] = useState("");
   const [isEnabledPreview, setIsEnabledPreview] = useState(false);
+  const [timeoutId, setTimeoutId] = useState<number>();
   const options = {
     mode: "gfm",
     lineWrapping: true,
@@ -31,6 +32,14 @@ const App: React.FC = () => {
     fetch();
     console.log(`preview: ${isEnabledPreview}`);
   }, []);
+  useEffect(() => {
+    window.clearTimeout(timeoutId);
+    setTimeoutId(
+      window.setTimeout(() => {
+        console.log("invoked");
+      }, 2000)
+    );
+  }, [val]);
   const compileMd = (mkd: string) => {
     const file: any = processor.processSync(mkd);
     return file.result || file.contents;
