@@ -11,6 +11,7 @@ const processor = remark().use(remarkReact);
 
 const App: React.FC = () => {
   const [val, setVal] = useState("");
+  const [isEnabledPreview, setIsEnabledPreview] = useState(false);
   const options = {
     mode: "gfm",
     lineWrapping: true,
@@ -22,9 +23,13 @@ const App: React.FC = () => {
       const res = await window.fetch("/api/test");
       const data = await res.json();
       console.log(data);
+      if (data.preview) {
+        setIsEnabledPreview(true);
+      }
       setVal(data.content);
     };
     fetch();
+    console.log(`preview: ${isEnabledPreview}`);
   }, []);
   const compileMd = (mkd: string) => {
     const file: any = processor.processSync(mkd);
@@ -49,8 +54,12 @@ const App: React.FC = () => {
             onChange={(editor, data, value) => {}}
           />
         </div>
-        <div style={styles.preview}>{compileMd(val)}</div>
-        <div style={styles.preview}>{marked2react(val)}</div>
+        {isEnabledPreview && (
+          <>
+            <div style={styles.preview}>{compileMd(val)}</div>
+            <div style={styles.preview}>{marked2react(val)}</div>
+          </>
+        )}
       </div>
     </>
   );
@@ -58,7 +67,7 @@ const App: React.FC = () => {
 
 const styles: { [name: string]: CSS.Properties } = {
   editor: {
-    width: "50%",
+    width: "100%",
   },
   preview: {
     width: "50%",

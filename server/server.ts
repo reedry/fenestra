@@ -6,8 +6,8 @@ import express from "express";
 import minimist from "minimist";
 
 const parseOption = {
-  boolean: ["help"],
-  alias: { p: "port", h: "help" },
+  boolean: ["help", "nopreview"],
+  alias: { p: "port", h: "help", n: "nopreview" },
   default: { p: 8000 },
 };
 
@@ -24,6 +24,7 @@ if (parsed["_"].length < 1) {
 }
 
 const port = parsed.port;
+const preview = !parsed.nopreview;
 const filePath = path.resolve(parsed["_"][0]);
 console.log(filePath);
 const fileName = path.basename(filePath);
@@ -37,10 +38,11 @@ app.get("/api/test", (_, res) => {
     const content = fs.readFileSync(filePath, "utf8");
     res.json({
       exist: true,
-      content: content,
+      content,
+      preview,
     });
   } catch {
-    res.json({ exist: false });
+    res.json({ exist: false, preview });
   }
 });
 
