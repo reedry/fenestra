@@ -5,6 +5,7 @@ import "codemirror/mode/gfm/gfm";
 import "codemirror/lib/codemirror.css";
 import remark from "remark";
 const remarkReact = require("remark-react");
+import marked from "marked";
 
 const processor = remark().use(remarkReact);
 
@@ -18,7 +19,11 @@ const App: React.FC = () => {
   };
   const compileMd = (mkd: string) => {
     const file: any = processor.processSync(mkd);
-    return file.result || file.content;
+    return file.result || file.contents;
+  };
+  const marked2react = (mkd: string) => {
+    const tokens = marked.lexer(mkd);
+    return <>{JSON.stringify(tokens, null, 2)}</>;
   };
   return (
     <>
@@ -36,6 +41,7 @@ const App: React.FC = () => {
           />
         </div>
         <div style={styles.preview}>{compileMd(val)}</div>
+        <div style={styles.preview}>{marked2react(val)}</div>
       </div>
     </>
   );
@@ -48,6 +54,7 @@ const styles: { [name: string]: CSS.Properties } = {
   preview: {
     width: "50%",
     backgroundColor: "#d0d0d0",
+    border: "1px solid #000",
   },
 };
 
