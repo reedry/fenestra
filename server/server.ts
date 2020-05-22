@@ -3,6 +3,7 @@
 import path from "path";
 import fs from "fs";
 import express from "express";
+import bodyParser from "body-parser";
 import minimist from "minimist";
 
 const parseOption = {
@@ -30,6 +31,7 @@ console.log(filePath);
 const fileName = path.basename(filePath);
 
 const app = express();
+app.use(bodyParser.json());
 const pubpath = path.join(__dirname, "../public");
 console.log(pubpath);
 app.use(express.static(pubpath));
@@ -44,6 +46,10 @@ app.get("/api/test", (_, res) => {
   } catch {
     res.json({ exist: false, preview });
   }
+});
+app.post("/api/save", (req, res) => {
+  console.log(req.body);
+  res.json({ ok: true });
 });
 
 app.listen(port, () =>
