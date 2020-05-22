@@ -51,7 +51,7 @@ app.post("/api/save", (req, res) => {
   console.log(req.body);
   const content = req.body.content;
   try {
-    fs.writeFileSync(fileName, content, "utf8");
+    fs.writeFileSync(filePath, content, "utf8");
     res.json({ ok: true });
   } catch {
     res.json({ ok: false });
