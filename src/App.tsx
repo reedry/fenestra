@@ -33,6 +33,10 @@ const App: React.FC = () => {
     };
     fetch();
     console.log(`preview: ${isEnabledPreview}`);
+    window.addEventListener("beforeunload", (e) => {
+      e.preventDefault();
+      e.returnValue = "";
+    });
   }, []);
   useEffect(() => {
     window.clearTimeout(timeoutRef.current);
