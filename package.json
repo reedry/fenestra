@@ -40,7 +40,7 @@
     "codemirror": "^5.53.2",
     "express": "^4.17.1",
     "marked": "^1.0.0",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "react": "^16.13.1",
     "react-codemirror2": "^7.1.0",
     "react-dom": "^16.13.1",
